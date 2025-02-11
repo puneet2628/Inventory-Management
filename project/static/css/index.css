@@ -1,0 +1,91 @@
+.card-container{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+.cards{
+    background-color: rgb(194, 177, 202);
+    height: 90px;
+    width: 100px;
+    margin-top: 30px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 30px;
+    color: #6a258a;
+}
+.cards p{
+    color: black;
+    font-size: 14px;
+}
+
+.arrow{
+    background-color: #b78fe6;
+    color: #6a258a;
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+
+    /* stock-number  */
+
+.sub-dtls{
+    display: flex;
+    gap: 20px;
+}
+.stk-num{
+    background-color: rgb(194, 177, 202);
+    width: 300px;
+    height: 220px;
+    margin-top: 20px;
+    padding: 25px;
+    border-radius: 20px;
+}
+.stock-numbers{
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+.stock-dtls{
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    gap: 10px;
+    margin-top: 5px;
+    
+}
+
+        /* store-list */
+
+.list-card {
+    background-color: rgb(194, 177, 202);
+    padding: 20px;
+    border-radius: 10px;
+    width: 45%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+.list-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.store-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.store-list div {
+    white-space: nowrap;
+    padding: 10px;
+} 
+.view-all{
+    color: rgb(137, 6, 224);
+     font-size: 12px;
+      cursor: pointer;
+}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{%load static%}
+{% block title %}Home Page{% endblock %}
+{%block head%}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{%endblock%}
+{% block content %}
+<h2>Recent Activity</h2>
+<!-- cards start -->
+<div class="card-container">
+    <div class="cards">
+        <h3>999</h3><br>
+        <h5>Qty</h5><br>
+        <p>NEW ITEMS</p>
+    </div>
+    <div class="cards">
+        <h3>123</h3><br>
+        <h5>Qty</h5><br>
+        <p>NEW ORDERS</p>
+    </div>
+    <div class="cards">
+        <h3>12</h3><br>
+        <h5>Qty</h5><br>
+        <p>REFUNDS</p>
+    </div>
+    <div class="cards">
+        <h3>1</h3><br>
+        <h5>Qty</h5><br>
+        <p>MESSAGE</p>
+    </div>
+    <div class="cards">
+        <h3>4</h3><br>
+        <h5>Qty</h5><br>
+        <p>GROUPS</p>
+    </div>
+    <div class="arrow">
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="m9 5 7 7-7 7" />
+            </svg>
+        </span>
+    </div>
+
+</div>
+
+<!-- end cards  -->
+
+<div class="sub-dtls">
+
+    <!-- stock-numbers    -->
+
+    <div class=" stk-num">
+        <h3>Stock Numbers</h3>
+        <div class="stock-numbers">
+            <div class="stock-dtls">
+                <p>Low stock items</p>
+            </div>
+            <div class="stock-dtls">
+                <p>12</p>
+            </div>
+            <div class="stock-dtls">
+                <p>Items Categories</p>
+            </div>
+            <div class="stock-dtls">
+                <p>6</p>
+            </div>
+            <div class="stock-dtls">
+                <p>Refunded items</p>
+            </div>
+            <div class="stock-dtls">
+                <p>1</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- store-list  -->
+   
+<div class="list-card">
+    <div class="list-card-header">
+        <span>Stores list</span>
+        <span class="view-all">VIEW ALL</span>
+    </div>
+    <div class="store-list">
+        <div>Manchester, UK</div> <div>23 employees</div> <div>308 items</div> <div>2 orders</div>
+        <div>Yorkshire, UK</div> <div>11 employees</div> <div>291 items</div> <div>15 orders</div>
+        <div>Hull, UK</div> <div>5 employees</div> <div>41 items</div> <div>11 orders</div>
+        <div>Leicester, UK</div> <div>16 employees</div> <div>261 items</div> <div>8 orders</div>
+    </div>
+</div>
+
+</div>
+
+
+
+{% endblock %}

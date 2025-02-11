@@ -1,0 +1,103 @@
+.container-categories {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+    padding: 10px 20px;
+}
+
+.maindiv {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+
+.csbtn {
+    align-items: center;
+    appearance: none;
+    background-color: #620597;
+    border-radius: 0.75rem;
+    border-style: none;
+    box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    justify-content: center;
+    letter-spacing: .25px;
+    line-height: normal;
+    max-width: 100%;
+    overflow: visible;
+    padding: 2px 24px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1), opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform, opacity;
+    z-index: 0;
+    text-decoration: none;
+}
+/* 
+.category-content{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}    
+
+.category-cards{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+} */
+ .category-cards{
+    display: flex;
+    gap: 30px;
+    margin-top: 10px;
+    
+ }
+.cardss{
+    background-color: #c8b0e2;
+    width: 300px;
+    height: 200px;
+    border-radius: 20px;
+   
+}
+.itm{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.sub-cards{
+    background-color: #c8b0e2;
+    height: 120px;
+    width: 255px;
+    border-radius: 20px;
+   justify-content: center;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.sub-cards svg{
+  margin-left: 80px;
+  margin-top: 15px;
+  color: #561c77dc;
+  align-items: center;
+}
+
+body{
+    background-color: rgb(223, 221, 221);
+}

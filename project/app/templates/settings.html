@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Settings {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Personal Settings</h2>
+
+<div class="container-settings">
+    <div class="personal-dtls">
+        <label for="name">Name*</label>
+        <p>Puneet</p>
+    </div>
+    <div class="personal-dtls">
+        <label for="store">Store*</label>
+        <p>Chandigarh, India</p>
+    </div>
+    <div class="personal-dtls">
+        <label for="email">Company Email*</label>
+        <p>puneet@gmail.com</p>
+    </div>
+    <div class="personal-dtls">
+        <label for="store-id">Store ID*</label>
+        <p>jjn-112jo-12</p>
+    </div>
+    <div class="personal-dtls">
+        <label for="mobile">Mobile*</label>
+        <p>1234567890</p>
+    </div>
+    <div class="personal-dtls">
+        <label for="role">Role*</label>
+        <p>Manager</p>
+    </div>
+    <div class="edit-btn">✏️</div>
+</div>
+
+<div class="main-container-block">
+    <div class="role">
+        <h3>Role <span class="edit-btn2">✏️</span></h3>
+        <label><input type="checkbox" checked> Manager</label><br>
+        <label><input type="checkbox"> Editor</label><br>
+        <label><input type="checkbox"> Supplier</label><br>
+        <label><input type="checkbox"> Seller</label><br>
+        <label><input type="checkbox"> Admin</label><br>
+        <label><input type="checkbox"> Finance</label><br>
+    </div>
+
+    <div class="permissions">
+        <h3>Permissions <span class="edit-btn2">✏️</span></h3>
+        
+        <div class="permissions-table">
+            <div class="header">Section</div>
+            <div class="header">View</div>
+            <div class="header">Edit</div>
+            <div class="header">Create</div>
+            <div class="header">Approval</div>
+
+            <!-- Customer -->
+            <div>Customer</div>
+            <div>✔</div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox" checked></div>
+
+            <!-- Product -->
+            <div>Product</div>
+            <div>✔</div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox" checked></div>
+
+            <!-- User -->
+            <div>User</div>
+            <div>✔</div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox" checked></div>
+
+            <!-- Supplier -->
+            <div>Supplier</div>
+            <div>✔</div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox"></div>
+            <div><input type="checkbox"></div>
+
+            <!-- Store -->
+            <div>Store</div>
+            <div>✔</div>
+            <div><input type="checkbox" checked></div>
+            <div><input type="checkbox"></div>
+            <div><input type="checkbox"></div>
+
+            <!-- Billing -->
+            <div>Billing</div>
+            <div>✔</div>
+            <div><input type="checkbox"></div>
+            <div><input type="checkbox"></div>
+            <div><input type="checkbox"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
