@@ -1,5 +1,4 @@
 from django.shortcuts import *
-
 def home(request):
     return render(request, 'index.html')
 
@@ -17,5 +16,9 @@ def setting(request):
 
 def categories(request):
     return render(request, 'categories.html')
+
+def signin(request):
+    return render(request,'auth/main_sign_in.html ')
+    # return render(request,'auth/admin_signin.html ')
 
 # Create your views here.

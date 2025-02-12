@@ -28,5 +28,6 @@ urlpatterns = [
     path('stores/', store),
     path('settings/', setting),
     path('categories/', categories),
+    path('signin/', signin ),
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
