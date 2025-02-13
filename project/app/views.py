@@ -19,6 +19,14 @@ def categories(request):
 
 def signin(request):
     return render(request,'auth/main_sign_in.html ')
-    # return render(request,'auth/admin_signin.html ')
+   
 
+def admin_signin(request):
+    return render(request,'auth/admin_signin.html ')
+
+def signup(request):
+    return render(request,'auth/signup.html ')
+
+def add_store(request):
+    return render(request,"add_store.html")
 # Create your views here.
