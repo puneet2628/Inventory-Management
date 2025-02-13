@@ -1,11 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1 class=></h1>
-</body>
-</html>
+{%extends "base.html"%}
+{%load static%}
+{%block title%}Add Store{%endblock%}
+{%block head%}
+<link rel="stylesheet" href="{% static 'css/add_store.css' %}">
+{%endblock%}
+{%block content%}
+
+<div class="container">
+    <h2 class="title">Add Store Images</h2>
+    <form class="form">
+        <div class="form-group">
+            <label>Store Name*</label>
+            <input type="text" placeholder="Enter store name">
+        </div>
+        <div class="form-group">
+            <label>Store Category*</label>
+            <select>
+                <option>Grocery</option>
+                <option>Electronics</option>
+                <option>Clothing</option>
+                <option>Furniture</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Phone Number*</label>
+            <input type="tel" placeholder="Enter phone number">
+        </div>
+        <div class="form-group">
+            <label>Email Address*</label>
+            <input type="email" placeholder="Enter email address">
+        </div>
+        <div class="form-group">
+            <label>Store Address*</label>
+            <input type="text" placeholder="Enter store address">
+        </div>
+        <div class="form-group">
+            <label>Store Images*</label>
+            <input type="file" multiple>
+        </div>
+        <div class="form-group full-width">
+            <button type="submit" class="submit-btn">Upload Images</button>
+        </div>
+    </form>
+</div>
+{%endblock%}

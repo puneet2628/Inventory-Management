@@ -17,15 +17,15 @@
             const special = document.getElementById("special");
 
             length.classList.toggle("text-green-500", password.length >= 8);
-            length.classList.toggle("text-red-500", password.length < 8);
+            length.classList.toggle("text-purple-500", password.length < 8);
             uppercase.classList.toggle("text-green-500", /[A-Z]/.test(password));
-            uppercase.classList.toggle("text-red-500", !/[A-Z]/.test(password));
+            uppercase.classList.toggle("text-purple-500", !/[A-Z]/.test(password));
             lowercase.classList.toggle("text-green-500", /[a-z]/.test(password));
-            lowercase.classList.toggle("text-red-500", !/[a-z]/.test(password));
+            lowercase.classList.toggle("text-purple-500", !/[a-z]/.test(password));
             number.classList.toggle("text-green-500", /\d/.test(password));
-            number.classList.toggle("text-red-500", !/\d/.test(password));
+            number.classList.toggle("text-purple-500", !/\d/.test(password));
             special.classList.toggle("text-green-500", /[@$!%*?&]/.test(password));
-            special.classList.toggle("text-red-500", !/[@$!%*?&]/.test(password));
+            special.classList.toggle("text-purple-500", !/[@$!%*?&]/.test(password));
         }
     </script>
 </head>
@@ -47,24 +47,24 @@
             <form class="mt-6 space-y-4">
                 <div class="flex space-x-2">
                     <input type="text" placeholder="Your Name"
-                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500">
+                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300">
                     <input type="text" placeholder="Your Username"
-                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500">
+                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300">
                 </div>
 
                 <input type="email"
-                    class="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none  focus:ring focus:ring-purple-300"
+                    class="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none  focus:ring focus:ring-purple-500 border-gray-300"
                     placeholder="Enter your email">
                 <input type="password" id="password" placeholder="Your Password"
-                    class="w-full p-3 border rounded-lg  focus:outline-none focus:ring focus:ring-purple-500"
+                    class="w-full p-3 border rounded-lg  focus:outline-none focus:ring focus:ring-purple-500 border-gray-300"
                     onkeyup="validatePassword()">
                 <p class="text-xs text-gray-500">
                     Your password must contain:
-                    <br><span id="length" class="text-red-500">- At least 8 characters</span>
-                    <br><span id="uppercase" class="text-red-500">- One uppercase letter</span>
-                    <br><span id="lowercase" class="text-red-500">- One lowercase letter</span>
-                    <br><span id="number" class="text-red-500">- One number</span>
-                    <br><span id="special" class="text-red-500">- One special character</span>
+                    <br><span id="length" class="text-purple-500">- At least 8 characters</span>
+                    <br><span id="uppercase" class="text-purple-500">- One uppercase letter</span>
+                    <br><span id="lowercase" class="text-purple-500">- One lowercase letter</span>
+                    <br><span id="number" class="text-purple-500">- One number</span>
+                    <br><span id="special" class="text-purple-500">- One special character</span>
                 </p>
                 <button class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition">Sign
                     Up</button>

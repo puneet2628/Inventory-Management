@@ -18,11 +18,11 @@ def categories(request):
     return render(request, 'categories.html')
 
 def signin(request):
-    return render(request,'auth/main_sign_in.html ')
+    return render(request,'auth/admin_signin.html ')
    
 
-def admin_signin(request):
-    return render(request,'auth/admin_signin.html ')
+# def admin_signin(request):
+#     return render(request,'auth/admin_signin.html ')
 
 def signup(request):
     return render(request,'auth/signup.html ')
