@@ -16,21 +16,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+# from flask import views
 from app.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),
+    path('', home, name= 'home'),
     path('products/', products),
     path('add_products/', add_products),
+    path('addstore/', add_store),
     path('stores/', store),
     path('settings/', setting),
-    path('categories/', categories),
-    path('signin/', signin ),
-    path('signup/', signup ),
-    # path('admin_signin/', admin_signin ),
-    path('addstore/', add_store ),
+    path('categories/', categories_list, name='categories_list'),
+    path('category/<int:category_id>/', category_products, name='category_products'),
+    path('categories/add/', add_category, name='add_category'),
+    path('signin/',signin,name='signin'  ),
+    path('signup/', signup,name='signup' ),
+    path('logout/', logout_view,name='logout' ),
+   
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

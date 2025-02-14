@@ -1,4 +1,4 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,8 +33,7 @@
 <body class="flex items-center justify-center min-h-screen bg-purple-100">
     <div class="flex bg-white shadow-xl rounded-lg overflow-hidden max-w-4xl w-full">
         <!-- Left Side -->
-        <div class="w-1/2 flex items-center justify-center ">
-            <!-- <img src="{% static 'img/signup.jpg'%}" class="h-full object-cover" alt="Signup Image"> -->
+        <div class="w-1/2 flex items-center justify-center">
             <img src="{% static 'img/signup.jpg' %}" class="h-full w-full object-cover rounded-r-lg"
                 alt="Sign Up Image">
         </div>
@@ -44,20 +43,23 @@
             <h2 class="text-3xl font-bold text-black-700">Sign Up</h2>
             <p class="text-gray-500">Please fill in your details</p>
 
-            <form class="mt-6 space-y-4">
+            <form class="mt-6 space-y-4" method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
                 <div class="flex space-x-2">
-                    <input type="text" placeholder="Your Name"
-                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300">
-                    <input type="text" placeholder="Your Username"
-                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300">
+                    <input type="text" name="name" placeholder="Your Name"
+                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300"
+                        required>
+                    <input type="text" name="username" placeholder="Your Username"
+                        class="w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300"
+                        required>
                 </div>
 
-                <input type="email"
-                    class="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none  focus:ring focus:ring-purple-500 border-gray-300"
-                    placeholder="Enter your email">
-                <input type="password" id="password" placeholder="Your Password"
-                    class="w-full p-3 border rounded-lg  focus:outline-none focus:ring focus:ring-purple-500 border-gray-300"
-                    onkeyup="validatePassword()">
+                <input type="email" name="email"
+                    class="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300"
+                    placeholder="Enter your email" required>
+                <input type="password" name="password" id="password" placeholder="Your Password"
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-purple-500 border-gray-300"
+                    onkeyup="validatePassword()" required>
                 <p class="text-xs text-gray-500">
                     Your password must contain:
                     <br><span id="length" class="text-purple-500">- At least 8 characters</span>
@@ -66,7 +68,8 @@
                     <br><span id="number" class="text-purple-500">- One number</span>
                     <br><span id="special" class="text-purple-500">- One special character</span>
                 </p>
-                <button class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition">Sign
+                <button type="submit"
+                    class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition">Sign
                     Up</button>
             </form>
 

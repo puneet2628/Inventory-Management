@@ -1,4 +1,3 @@
-
 .form-container {
     background: #fff;
     padding: 20px;
@@ -26,7 +25,9 @@ label {
     margin-bottom: 5px;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -40,7 +41,8 @@ textarea {
 .submit-btn-container {
     display: flex;
     justify-content: center;
-    grid-column: span 2; /* Ensures it spans across both columns in the grid */
+    grid-column: span 2;
+    /* Ensures it spans across both columns in the grid */
 }
 
 .submit-btn {
@@ -52,7 +54,14 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    width: 20%; 
+    width: 20%;
+}
+
+#photos {
+    height: 80px;
+    /* Adjust height */
+    width: 100%;
+    /* Optional: Make it full width */
 }
 
 .submit-btn:hover {
