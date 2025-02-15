@@ -2,6 +2,7 @@ from django.shortcuts import *
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from .models import *
+from django.core.files.storage import FileSystemStorage
 
 
 def home(request):
@@ -21,11 +22,11 @@ def store(request):
 def setting(request):
     return render(request, 'settings.html')
 
-def categories(request):
-    return render(request, 'categories/categories.html')
+# def categories(request):
+#     return render(request, 'categories/categories.html')
 
-def add_categories(request):
-    return render(request, 'categories/add_categories.html')
+# def add_categories(request):
+#     return render(request, 'categories/add_categories.html')
 
 
 
@@ -128,3 +129,47 @@ def add_category(request):
 
     return render(request, 'categories/add_categories.html')
 
+#------------------------------------------------Products-------=------------------------------------
+
+# ----------------- Product List View -----------------
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, "products/products.html", {"products": products})
+
+# ----------------- Add Product View -----------------
+def add_product(request):
+    categories = Category.objects.all()
+    stores = Store.objects.all()
+    
+    if request.method == "POST":
+        name = request.POST["name"]
+        item_code = request.POST["item_code"]
+        category_id = request.POST["category"]
+        stock = request.POST["stock"]
+        price = request.POST["price"]
+        description = request.POST["description"]
+        store_ids = request.POST.getlist("stores")
+        images = request.FILES.getlist("photos")
+
+        category = get_object_or_404(Category, id=category_id)
+        product = Product.objects.create(
+            category=category,
+            name=name,
+            item_code=item_code,
+            stock=stock,
+            price=price,
+            description=description,
+        )
+
+        for store_id in store_ids:
+            store = get_object_or_404(Store, id=store_id)
+            product.stores.add(store)
+
+        for image in images:
+            fs = FileSystemStorage()
+            filename = fs.save(image.name, image)
+            ProductImage.objects.create(product=product, image=filename)
+
+        return redirect("product_list")
+
+    return render(request, "products/add_products.html", {"categories": categories, "stores": stores})

@@ -7,27 +7,17 @@
 {% endblock %}
 
 {% block content %}
-
-<!-- ------- Header Start------------- -->
 <div class="upr-bar">
     <h2>Products</h2>
     <div class="maindiv">
         <div class="search">
             <input type="search" name="search" id="search" placeholder="Search">
         </div>
-        <div class="filter-dropdown">
-            <select id="filter" class="dropdown">
-                <option selected disabled>Filter by</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
-        </div>
         <div class="add-product">
-            <a href="/add_products" class="csbtn"> 
+            <a href="{% url 'add_product' %}" class="csbtn">
                 <span>
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                        viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M5 12h14m-7 7V5" />
                     </svg>
@@ -36,9 +26,7 @@
         </div>
     </div>
 </div>
-<!-- ------- Header End------------- -->
 
-<!----------- Main Content--------------------->
 <table class="tick">
     <thead>
         <tr>
@@ -47,41 +35,30 @@
             <th>Status</th>
             <th>Stock</th>
             <th>Category</th>
-            <th>Location</th>
+            <th>Stores</th>
         </tr>
     </thead>
     <tbody>
+        {% for product in products %}
         <tr>
-            <td><img src="https://images.unsplash.com/photo-1531927557220-a9e23c1e4794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
-                alt="Avatar"></td>
-            <td>Unisex T-Shirt White</td>
+            <td>
+                {% if product.images.all %}
+                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                No Image
+                {% endif %}
+            </td>
+            <td>{{ product.name }}</td>
             <td><span class="active">Active</span></td>
-            <td>12 in stock</td>
-            <td>T-Shirt</td>
-            <td>3 stores</td>
+            <td>{{ product.stock }}</td>
+            <td>{{ product.category.name }}</td>
+            <td>
+                {% for store in product.stores.all %}
+                {{ store.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
         </tr>
-        <tr>
-            <td><img src="shirt2.jpg" alt="T-Shirt"></td>
-            <td>Unisex T-Shirt Black</td>
-            <td><span class="sold-out">Active</span></td>
-            <td>10 in stock</td>
-            <td>T-Shirt</td>
-            <td>4 stores</td>
-        </tr>
-        <tr>
-            <td><img src="shirt2.jpg" alt="T-Shirt"></td>
-            <td>Unisex T-Shirt Black</td>
-            <td><span class="low-stock">Active</span></td>
-            <td>10 in stock</td>
-            <td>T-Shirt</td>
-            <td>4 stores</td>
-        </tr>
-        
-        <!-- Add more rows as needed -->
+        {% endfor %}
     </tbody>
 </table>
-<!-- table-ends  -->
-  
-<!---------------End MAin --------------------->
-
 {% endblock %}

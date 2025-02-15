@@ -67,3 +67,7 @@ textarea {
 .submit-btn:hover {
     background-color: #4b00c2;
 }
+
+#price {
+    height: 65px;
+}

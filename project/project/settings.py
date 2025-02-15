@@ -10,10 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'app.CustomUser'
+
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+MEDIA_URL = '/category_icons/'  # Change this if needed
+MEDIA_ROOT = os.path.join(BASE_DIR, 'category_icons')
 
 
 # Quick-start development settings - unsuitable for production
@@ -138,11 +146,9 @@ STATIC_URL = '/static/'
 
 
 
-import os
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),  # Ensure your static files are stored properly
 ]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

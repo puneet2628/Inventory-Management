@@ -46,38 +46,22 @@
     z-index: 0;
     text-decoration: none;
 }
-/* 
-.category-content{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}    
 
-.category-cards{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-} */
+/* 
  .category-cards{
     display: flex;
     gap: 30px;
     margin-top: 10px;
     
- }
-.cardss{
+ } */
+/* .cardss{
     background-color: #c8b0e2;
     width: 300px;
     height: 200px;
     border-radius: 20px;
    
-}
-.itm{
+} */
+/* .itm{
     margin-left: 20px;
     margin-top: 5px;
 }
@@ -89,15 +73,103 @@
    justify-content: center;
     margin-top: 20px;
     margin-left: 20px;
-}
+} */
 
-.sub-cards svg{
+/* .sub-cards svg{
   margin-left: 80px;
   margin-top: 15px;
   color: #561c77dc;
   align-items: center;
+} */
+
+body {
+    background-color: rgb(223, 221, 221);
 }
 
-body{
-    background-color: rgb(223, 221, 221);
+.category-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns */
+    gap: 20px;
+    /* Space between cards */
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.cardss {
+    background-color: #c8b0e2;
+    width: 100%;
+    /* Make it responsive */
+    max-width: 300px;
+    /* Limit max width */
+    height: 200px;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.sub-cards {
+    background-color: #c8b0e2;
+    height: 120px;
+    width: 100%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sub-cards svg {
+    width: 84px;
+    height: 84px;
+    color: #561c77dc;
+}
+
+.itm {
+    text-align: center;
+}
+
+.category-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns */
+    gap: 20px;
+    /* Space between cards */
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.cardss {
+    background-color: #c8b0e2;
+    width: 100%;
+    /* Make it responsive */
+    max-width: 300px;
+    /* Limit max width */
+    height: 200px;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.sub-cards {
+    background-color: #c8b0e2;
+    height: 120px;
+    width: 100%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sub-cards svg {
+    width: 84px;
+    height: 84px;
+    color: #561c77dc;
+}
+
+.sub-cards img {
+    width: 104px;
+    height: 94px;
+    border-radius: 10px;
+}
+
+.itm {
+    text-align: center;
 }

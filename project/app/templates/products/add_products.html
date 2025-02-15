@@ -1,52 +1,60 @@
-{%extends "base.html"%}
-{%load static%}
-{% block title %} Add-Products {% endblock %}
-{%block head%}
-<link rel="stylesheet" href="{% static 'css/add_products.css'%}">
-{%endblock%}
-{% block content %}
+{% extends "base.html" %}
+{% load static %}
 
+{% block title %} Add-Products {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/add_products.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="add-products">
     <h2>Add Products</h2>
     <div class="form-container">
-        <form>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
             <div class="form-group">
                 <label for="name">Name*</label>
-                <input type="text" id="name" required>
+                <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
-                <label for="item-code">Item code*</label>
-                <input type="text" id="item-code" required>
+                <label for="item_code">Item code*</label>
+                <input type="text" id="item_code" name="item_code" required>
             </div>
             <div class="form-group">
                 <label for="category">Category*</label>
-                <input type="text" id="category" required>
+                <select id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="form-group">
-                <label for="stock-size">Stock size*</label>
-                <input type="text" id="stock-size" required>
+                <label for="stock">Stock size*</label>
+                <input type="text" id="stock" name="stock" required>
             </div>
             <div class="form-group">
                 <label for="stores">Stores availability*</label>
-                <select id="stores">
-                    <option value="">Select Store</option>
-                    <option value="store1">Store 1</option>
-                    <option value="store2">Store 2</option>
+                <select id="stores" name="stores" multiple>
+                    {% for store in stores %}
+                    <option value="{{ store.id }}">{{ store.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="price">Price*</label>
-                <input type="text" id="price" required>
+                <input type="number" id="price" name="price" required step="0.01">
             </div>
-            <div class="form-group ">
+            <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description"> </textarea>
+                <textarea id="description" name="description"></textarea>
             </div>
             <div class="form-group">
                 <label for="photos">Product photos*</label>
                 <input type="file" id="photos" name="photos" multiple>
             </div>
-
 
             <div class="submit-btn-container">
                 <button type="submit" class="submit-btn">Save product</button>
@@ -54,5 +62,4 @@
         </form>
     </div>
 </div>
-
 {% endblock %}

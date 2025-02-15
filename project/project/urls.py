@@ -24,8 +24,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name= 'home'),
-    path('products/', products),
-    path('add_products/', add_products),
+    # path('products/', products),
+    # path('add_products/', add_products),
     path('addstore/', add_store),
     path('stores/', store),
     path('settings/', setting),
@@ -35,6 +35,11 @@ urlpatterns = [
     path('signin/',signin,name='signin'  ),
     path('signup/', signup,name='signup' ),
     path('logout/', logout_view,name='logout' ),
+    path("products/", product_list, name="product_list"),
+    path("add_products/", add_product, name="add_product"),
    
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
