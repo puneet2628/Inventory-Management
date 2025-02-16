@@ -1,24 +1,2 @@
-install python 
-install django
-
-db config 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dj-project',
-        'USER':'root',
-        'PASSWORD':'admin',
-        'HOST':'localhost',
-        
-    }
-}
-commands 
-
-for migrations 
-py manage.py makemigrations
-py manage.py migrate
-
-py manage.py runseerver
-
-i thik thats it.
+Django==5.1.6
+python-decouple=3.8
