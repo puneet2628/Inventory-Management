@@ -1,106 +1,68 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Settings {% endblock %}
+{% block title %}Settings{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/settings.css' %}">
 {% endblock %}
 
 {% block content %}
-<h2>Personal Settings</h2>
+<h2 class="settings-title">Personal Settings</h2>
 
-<div class="container-settings">
-    <div class="personal-dtls">
-        <label for="name">Name*</label>
-        <p>Puneet</p>
-    </div>
-    <div class="personal-dtls">
-        <label for="store">Store*</label>
-        <p>Chandigarh, India</p>
-    </div>
-    <div class="personal-dtls">
-        <label for="email">Company Email*</label>
-        <p>puneet@gmail.com</p>
-    </div>
-    <div class="personal-dtls">
-        <label for="store-id">Store ID*</label>
-        <p>jjn-112jo-12</p>
-    </div>
-    <div class="personal-dtls">
-        <label for="mobile">Mobile*</label>
-        <p>1234567890</p>
-    </div>
-    <div class="personal-dtls">
-        <label for="role">Role*</label>
-        <p>Manager</p>
-    </div>
-    <div class="edit-btn">✏️</div>
-</div>
+<div class="settings-container">
+    <form method="POST" action="{% url 'update_settings' %}">
+        {% csrf_token %}
 
-<div class="main-container-block">
-    <div class="role">
-        <h3>Role <span class="edit-btn2">✏️</span></h3>
-        <label><input type="checkbox" checked> Manager</label><br>
-        <label><input type="checkbox"> Editor</label><br>
-        <label><input type="checkbox"> Supplier</label><br>
-        <label><input type="checkbox"> Seller</label><br>
-        <label><input type="checkbox"> Admin</label><br>
-        <label><input type="checkbox"> Finance</label><br>
-    </div>
+        <div class="settings-grid">
+            <div class="settings-field">
+                <label>Name*</label>
+                <input type="text" name="name" value="{{ user.name }}" disabled class="editable">
+            </div>
 
-    <div class="permissions">
-        <h3>Permissions <span class="edit-btn2">✏️</span></h3>
-        
-        <div class="permissions-table">
-            <div class="header">Section</div>
-            <div class="header">View</div>
-            <div class="header">Edit</div>
-            <div class="header">Create</div>
-            <div class="header">Approval</div>
+            <div class="settings-field">
+                <label>User Name*</label>
+                <input type="text" name="username" value="{{ user.username }}" disabled class="editable">
+            </div>
 
-            <!-- Customer -->
-            <div>Customer</div>
-            <div>✔</div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox" checked></div>
+            <div class="settings-field">
+                <label>Email*</label>
+                <input type="email" name="email" value="{{ user.email }}" disabled class="editable">
+            </div>
 
-            <!-- Product -->
-            <div>Product</div>
-            <div>✔</div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox" checked></div>
+            <div class="settings-field">
+                <label>User ID*</label>
+                <input type="text" value="{{ user.account_id }}" disabled>
+            </div>
 
-            <!-- User -->
-            <div>User</div>
-            <div>✔</div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox" checked></div>
+            <div class="settings-field">
+                <label>Mobile*</label>
+                <input type="text" name="phone_number" value="{{ user.phone_number }}" disabled class="editable">
+            </div>
 
-            <!-- Supplier -->
-            <div>Supplier</div>
-            <div>✔</div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox"></div>
-            <div><input type="checkbox"></div>
-
-            <!-- Store -->
-            <div>Store</div>
-            <div>✔</div>
-            <div><input type="checkbox" checked></div>
-            <div><input type="checkbox"></div>
-            <div><input type="checkbox"></div>
-
-            <!-- Billing -->
-            <div>Billing</div>
-            <div>✔</div>
-            <div><input type="checkbox"></div>
-            <div><input type="checkbox"></div>
-            <div><input type="checkbox"></div>
+            <div class="settings-field">
+                <label>Role*</label>
+                <input type="text" value="{{ user.role }}" disabled>
+            </div>
         </div>
-    </div>
+
+        <div class="settings-buttons">
+            <button type="button" id="edit-btn" class="edit-btn">✏️ Edit</button>
+            <button type="submit" id="save-btn" class="save-btn hidden">💾 Save</button>
+        </div>
+    </form>
 </div>
+
+<script>
+    
+    document.getElementById('edit-btn').addEventListener('click', function () {
+        // Enable only editable fields
+        document.querySelectorAll('.editable').forEach(el => el.removeAttribute('disabled'));
+
+        // Hide Edit button, Show Save button
+        document.getElementById('edit-btn').classList.add('hidden');
+        document.getElementById('save-btn').classList.remove('hidden');
+
+    });
+</script>
 {% endblock %}

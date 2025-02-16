@@ -20,9 +20,14 @@ AUTH_USER_MODEL = 'app.CustomUser'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MEDIA_URL = '/category_icons/'  # Change this if needed
-MEDIA_ROOT = os.path.join(BASE_DIR, 'category_icons')
+# MEDIA_URL = '/category_icons/'  # Change this if needed
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'category_icons')
 
+MEDIA_URL = '/media/'  # This should be a general media folder
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CATEGORY_ICONS_FOLDER = 'category_icons/'  # Keep category images in a subfolder
+PRODUCT_IMAGES_FOLDER = 'product_images/'  # Store product images separately
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -138,13 +143,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Add additional static files directories if necessary
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",  # Directory where your CSS files are located
-# ]
-
-
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),  # Ensure your static files are stored properly

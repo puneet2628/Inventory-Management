@@ -1,11 +1,12 @@
-{%extends "base.html"%}
-{%load static%}
-{%block title%}Stores{%endblock%}
-{%block head%}
-<link rel="stylesheet" href="{%static 'css/stores.css'%}">
-{%endblock%}
-{%block content%}
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Stores{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/stores.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="body">
     <div class="upr-bar">
         <h2>Stores</h2>
@@ -16,13 +17,14 @@
             <div class="filter-dropdown">
                 <select id="filter" class="dropdown">
                     <option selected disabled>Filter by</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
+                    <option value="Grocery">Grocery</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Furniture">Furniture</option>
                 </select>
             </div>
             <div class="add-product">
-                <a href="/addstore" class="csbtn">
+                <a href="{% url 'add_store' %}" class="csbtn">
                     <span>
                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
                             viewBox="0 0 24 24">
@@ -35,84 +37,56 @@
         </div>
     </div>
 
-    <!-- Cards Section -->
+    <!-- Store Cards -->
     <div class="container-store">
-        <div class="store-cards">
-            <img src="https://images.pexels.com/photos/1827234/pexels-photo-1827234.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="">
-            <p>Manchester, UK</p>
-        </div>
-        <div class="store-cards">
-            <img src="https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="">
-            <p>Brisbane,Australia</p>
-        </div>
-        <div class="store-cards">
-            <img src="https://images.pexels.com/photos/2817452/pexels-photo-2817452.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="">
-            <p>Toronto, Canada</p>
-        </div>
-        <div class="store-cards">
-            <img src="https://images.pexels.com/photos/1619572/pexels-photo-1619572.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="">
-            <p>Los Angles, USA</p>
-        </div>
-        <div class="store-cards">
-            <img src="https://images.pexels.com/photos/916446/pexels-photo-916446.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="">
-            <p>Berlin, Germany</p>
-        </div>
-    </div>
-
-    <!-- Store Details Section -->
-    <div class="container-store-details">
-        <!-- Close Icon -->
-        <svg class="close-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-            viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                d="M6 18 17.94 6M18 18 6.06 6" />
-        </svg>
-
-        <div class="details">
-            <h4>Manchester, UK</h4>
-            <div class="images">
-                <img src="https://images.pexels.com/photos/1827234/pexels-photo-1827234.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="">
-                <img src="https://images.pexels.com/photos/1827234/pexels-photo-1827234.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="">
-                <img src="https://images.pexels.com/photos/1827234/pexels-photo-1827234.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="">
+        {% for store in stores %}
+        <div class="store-card-wrapper">
+            <div class="store-cards" data-id="{{ store.id }}" onclick="showDetails('{{ store.id }}')">
+                {% with store.storeimage_set.first as store_image %}
+                {% if store_image %}
+                <img src="{{ store_image.image.url }}" alt="{{ store.name }}">
+                {% else %}
+                <img src="{% static 'images/default-store.jpg' %}" alt="Default Store Image">
+                {% endif %}
+                {% endwith %}
+                <p><strong>{{ store.name }}</strong></p>
             </div>
-            <div class="grid-details">
-                <div class="user-details">
-                    <p>Employee:20</p>
-                </div>
-                <div class="user-details">
-                    <p>Most Sold Items: Unisex T-Shirt White</p>
-                </div>
-                <div class="user-details">
-                    <p>Items:320</p>
-                </div>
-                <div class="user-details">
-                    <p>Most Popular Category:T-Shits</p>
-                </div>
-                <div class="user-details">
-                    <p>Orders:20</p>
-                </div>
-                <div class="user-details">
-                    <p>Customer Satisfaction:90</p>
-                </div>
-                <div class="user-details">
-                    <p>Refunds:1</p>
-                </div>
-                <div class="user-details">
-                    <p>Status:Open</p>
-                </div>
+
+            <!-- Store Details (Now inside the same wrapper) -->
+            <div class="store-details-card" id="details-{{ store.id }}">
+                <p><strong>Category:</strong> {{ store.category }}</p>
+                <p><strong>Id:</strong>{{ store.id }}</p>
+                <p><strong>Phone:</strong> {{ store.phone_number }}</p>
+                <p><strong>Email:</strong> {{ store.email }}</p>
+                <p><strong>Address:</strong> {{ store.address }}</p>
+                <p><strong>Location:</strong> {{ store.location }}</p>
+                <p><strong>Description:</strong> {{ store.description }}</p>
+                <button onclick="hideDetails()">✖ Close</button>
             </div>
         </div>
+        {% empty %}
+        <p>No stores available.</p>
+        {% endfor %}
     </div>
 
-</div>
+    <!-- JavaScript for Show/Hide Store Details -->
+    <script>
+        function showDetails(storeId) {
+            // Hide all store details first
+            document.querySelectorAll(".store-details-card").forEach(card => {
+                card.style.display = "none";
+            });
 
+            // Show only the clicked store details
+            document.getElementById("details-" + storeId).style.display = "block";
+        }
 
-{%endblock%}
+        function hideDetails() {
+            // Hide all details when closing
+            document.querySelectorAll(".store-details-card").forEach(card => {
+                card.style.display = "none";
+            });
+        }
+    </script>
+
+    {% endblock %}

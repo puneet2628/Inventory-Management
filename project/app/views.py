@@ -1,34 +1,18 @@
+import django
+import django.http
 from django.shortcuts import *
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from .models import *
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
+
+
 
 
 def home(request):
     return render(request, 'index.html')
-
-def products(request):
-    return render(request, 'products/products.html')
-
-def add_products(request):
-    return render(request, 'products/add_products.html')
-def add_store(request):
-    return render(request, 'stores/add_store.html')
-
-def store(request):
-    return render(request, 'stores/stores.html')
-
-def setting(request):
-    return render(request, 'settings.html')
-
-# def categories(request):
-#     return render(request, 'categories/categories.html')
-
-# def add_categories(request):
-#     return render(request, 'categories/add_categories.html')
-
-
 
 def signup(request):
     if request.method == "POST":
@@ -111,9 +95,14 @@ def categories_list(request):
     categories = Category.objects.all()
     return render(request, 'categories/categories.html', {'categories': categories})
 
+# def category_products(request, category_id):
+#     category = get_object_or_404(Category, id=category_id)
+#     products = Product.objects.filter(category=category)
+#     return render(request, 'categories/category_products.html', {'category': category, 'products': products})
 def category_products(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     products = Product.objects.filter(category=category)
+
     return render(request, 'categories/category_products.html', {'category': category, 'products': products})
 
     
@@ -173,3 +162,60 @@ def add_product(request):
         return redirect("product_list")
 
     return render(request, "products/add_products.html", {"categories": categories, "stores": stores})
+
+
+#--------------------------------------------Store---------------------------------------------------------
+
+
+def store_list(request):
+    stores = Store.objects.all()
+    return render(request, "stores/stores.html", {"stores": stores})
+
+def add_store(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        category = request.POST.get("category")
+        phone_number = request.POST.get("phone_number")
+        email = request.POST.get("email")
+        address = request.POST.get("address")
+        description = request.POST.get("description")
+        images = request.FILES.getlist("images")  # Get multiple uploaded images
+
+        if name and category and phone_number and email and address:
+            store = Store.objects.create(
+                name=name,
+                category=category,
+                phone_number=phone_number,
+                email=email,
+                address=address,
+                description=description
+            )
+
+            for image in images:
+                StoreImage.objects.create(store=store, image=image)
+
+            return redirect("store_list")  # Change to your actual store list page
+
+    return render(request, "stores/add_store.html")
+
+
+#---------------------------------------settings-------------------------------------------------------
+
+@login_required
+def settings_view(request):
+    return render(request, 'settings.html', {'user': request.user})
+
+
+def update_settings(request):
+    if request.method == "POST":
+        user = request.user
+        
+        user.phone_number = request.POST.get("phone_number")  # Fix here
+        user.email = request.POST.get("email")
+        user.username = request.POST.get("username")
+        user.save()
+
+        return redirect("settings")  # Redirect to settings page
+
+    return render(request, "settings.html")
+
