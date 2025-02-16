@@ -9,22 +9,18 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Custom user model
 AUTH_USER_MODEL = 'app.CustomUser'
 
-
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# MEDIA_URL = '/category_icons/'  # Change this if needed
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'category_icons')
-
-MEDIA_URL = '/media/'  # This should be a general media folder
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Media files settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'  # Using pathlib for consistency
 
 CATEGORY_ICONS_FOLDER = 'category_icons/'  # Keep category images in a subfolder
 PRODUCT_IMAGES_FOLDER = 'product_images/'  # Store product images separately
@@ -50,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +64,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [],  # Add paths to your templates here if needed
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,17 +82,15 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# Switched to SQLite for easier development
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dj-project',
-        'USER':'root',
-        'PASSWORD':'admin',
-        'HOST':'localhost',
-        
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -105,7 +99,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'puneetsharma2628@gmail.com'  # Replace with your Gmail
 EMAIL_HOST_PASSWORD = 'lzvv zmzu qjvz yohr'  # Use the App Password you generated
-
 
 
 # Password validation
@@ -145,12 +138,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),  # Ensure your static files are stored properly
+    BASE_DIR / 'static',  # Ensure your static files are stored properly
 ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTH_USER_MODEL = 'app.CustomUser'
