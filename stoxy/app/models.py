@@ -4,23 +4,17 @@ import uuid
 
 #-------------------------------- Signup and SignIn Model ---------------------------------------
 class CustomUser(AbstractUser):
-    # Root user flag (Fixed super admin user)
+   
     is_root_user = models.BooleanField(default=False)
-
-    # Unique account ID (only for normal users, auto-generated)
     account_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
-
-    # Ensure email is unique
-    email = models.EmailField(unique=True)  # FIXED
-
-    # User details
+    email = models.EmailField(unique=True) 
     name = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     store = models.CharField(max_length=255, blank=True, null=True)
     role = models.CharField(max_length=50, blank=True, null=True)
 
-    USERNAME_FIELD = 'email'  # Login using email
-    REQUIRED_FIELDS = ['username']  # Keep username for Django compatibility
+    USERNAME_FIELD = 'email'  
+    REQUIRED_FIELDS = ['username'] 
 
     def save(self, *args, **kwargs):
         """ Auto-generate an 8-character account ID for normal users. """
@@ -46,9 +40,9 @@ class Category(models.Model):
         return self.name
 
     def product_count(self):
-        return self.products.count()  # Counts products in this category
+        return self.products.count()
 
-#------------------------------------------Store & Products----------------------------------------------------------
+#------------------------------------------Store----------------------------------------------------------
 
 class Store(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -66,14 +60,14 @@ class StoreImage(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="store_images/")
 
-
+#----------------------------------------Products--------------------------------------------------
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=255)
-    item_code = models.CharField(max_length=50, unique=True)  # New field
+    item_code = models.CharField(max_length=50, unique=True)  
     stock = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stores = models.ManyToManyField(Store, related_name="products")  # New relation
+    stores = models.ManyToManyField(Store, related_name="products")  
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -82,7 +76,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to='product_images/')  # Store in 'media/product_images/'
+    image = models.ImageField(upload_to='product_images/') 
     
     def __str__(self):
         return f"Image for {self.product.name}"

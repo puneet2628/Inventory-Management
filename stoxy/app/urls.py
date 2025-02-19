@@ -6,9 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', home, name= 'home'),
-    # path('addstore/', add_store),
-    # path('stores/', store),
-    # path('settings/', setting),
     path('categories/', categories_list, name='categories_list'),
     path('category/<int:category_id>/', category_products, name='category_products'),
     path('categories/add/', add_category, name='add_category'),
@@ -21,6 +18,7 @@ urlpatterns = [
     path('addstore/', add_store, name='add_store'),
     path('settings/', settings_view, name='settings'),  
     path('settings/update/', update_settings, name='update_settings'),
+    path("finance/", finance_dashboard, name="finance"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

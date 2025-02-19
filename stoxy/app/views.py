@@ -7,6 +7,7 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Sum, F
 
 
 
@@ -179,7 +180,7 @@ def add_store(request):
         email = request.POST.get("email")
         address = request.POST.get("address")
         description = request.POST.get("description")
-        images = request.FILES.getlist("images")  # Get multiple uploaded images
+        images = request.FILES.getlist("images")  
 
         if name and category and phone_number and email and address:
             store = Store.objects.create(
@@ -194,7 +195,7 @@ def add_store(request):
             for image in images:
                 StoreImage.objects.create(store=store, image=image)
 
-            return redirect("store_list")  # Change to your actual store list page
+            return redirect("store_list")  
 
     return render(request, "stores/add_store.html")
 
@@ -205,17 +206,52 @@ def add_store(request):
 def settings_view(request):
     return render(request, 'settings.html', {'user': request.user})
 
-
 def update_settings(request):
     if request.method == "POST":
         user = request.user
-        
-        user.phone_number = request.POST.get("phone_number")  # Fix here
+
+       
+        user.name = request.POST.get("name")  
         user.email = request.POST.get("email")
+        user.phone_number = request.POST.get("phone_number")
         user.username = request.POST.get("username")
-        user.save()
 
-        return redirect("settings")  # Redirect to settings page
+        user.save()  
 
-    return render(request, "settings.html")
+        return redirect("settings") 
 
+    return redirect("settings") 
+
+def finance_dashboard(request):
+    # 1. Fetch Category-wise Total Sales (Sum of all product prices * stock)
+    category_sales = (
+        Product.objects.values("category__name")
+        .annotate(total_sales=Sum(F("price") * F("stock")))
+        .order_by("-total_sales")
+    )
+
+    # 2. Fetch Store-wise Stock Value (Sum of stock * price for each store)
+    store_stock_value = (
+        Store.objects.annotate(
+            stock_value=Sum(F("products__stock") * F("products__price"))
+        )
+        .values("name", "stock_value")
+        .order_by("-stock_value")
+    )
+
+    # 3. Fetch Top Products by Total Stock Value (Price * Stock)
+    top_products = (
+        Product.objects.annotate(total_value=F("price") * F("stock"))
+        .values("name", "total_value")
+        .order_by("-total_value")[:5]  # Get top 5 products
+    )
+
+    return render(
+        request,
+        "finance/finance.html",
+        {
+            "category_sales": list(category_sales),
+            "store_stock_value": list(store_stock_value),
+            "top_products": list(top_products),
+        },
+    )

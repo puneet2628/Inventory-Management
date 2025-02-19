@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup Successful</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <h2>Signup Successful!</h2>
-    <p>Your Account ID is: <strong>{{ account_id }}</strong></p>
-    <p>Please check your email for your Account ID details.</p>
-    <a href="{% url 'signin' %}">Go to Sign In</a>
+<body class="flex items-center justify-center h-screen bg-purple-100">
+    <div class="bg-white p-8 rounded-2xl shadow-lg text-center max-w-md">
+        <h2 class="text-2xl font-bold text-green-600">Signup Successful!</h2>
+        <p class="text-gray-700 mt-3">Your Account ID is:</p>
+        <p class="text-lg font-semibold text-blue-600 mt-1">{{ account_id }}</p>
+        <p class="text-gray-600 mt-3">Please check your email for your Account ID details.</p>
+        <a href="{% url 'signin' %}"
+            class="mt-5 inline-block bg-blue-500 text-white px-6 py-2 rounded-lg text-lg hover:bg-blue-700 transition">
+            Go to Sign In
+        </a>
+    </div>
 </body>
 
 </html>

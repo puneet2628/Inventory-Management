@@ -18,19 +18,16 @@ body {
 .sidenav {
 
 
-    height: 86%;
+    height: 100%;
     width: 200px;
     position: fixed;
     top: 0;
     left: 0;
     background-color: #6a258a;
-    padding-top: 20px;
-    margin-top: 60px;
-    border-radius: 10px;
-    margin-left: 2px;
     justify-content: space-between;
     display: flex;
     flex-direction: column;
+    
 
 }
 
@@ -46,9 +43,7 @@ body {
     gap: 14px;
 }
 
-.sidenav a:hover {
-    background-color: #311b5c;
-}
+
 
 .main-sidenav {
     grid-column: 2;
@@ -56,8 +51,8 @@ body {
 
 .main-content {
     grid-column: span 10;
-    margin-top: 25px;
-    margin-right: 20px;
+    /* margin-top: 25px; */
+    margin-right: 30px;
 
 
 }
@@ -86,17 +81,13 @@ body {
 
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 100px;
 
-}
 
 .logo a {
     text-decoration: none;
     list-style: none;
-    color: #311b5c;
+    color: white;
+    padding-top: 20px;
 
 }
 
