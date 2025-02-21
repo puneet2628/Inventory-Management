@@ -4,7 +4,7 @@
 {% block title %}Settings{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
             </div>
 
             <div class="settings-field">
-                <label>User Name*</label>
+                <label>Username*</label>
                 <input type="text" name="username" value="{{ user.username }}" disabled class="editable">
             </div>
 
@@ -44,6 +44,30 @@
                 <label>Role*</label>
                 <input type="text" value="{{ user.role }}" disabled>
             </div>
+
+            <!-- Additional Settings -->
+            <div class="settings-field">
+                <label>Language</label>
+                <select name="language" disabled class="editable">
+                    <option value="en" {% if user.language == "en" %}selected{% endif %}>English</option>
+                    <option value="es" {% if user.language == "es" %}selected{% endif %}>Spanish</option>
+                    <option value="fr" {% if user.language == "fr" %}selected{% endif %}>French</option>
+                </select>
+            </div>
+
+            <div class="settings-field">
+                <label>Time Zone</label>
+                <select name="timezone" disabled class="editable">
+                    <option value="UTC" {% if user.timezone == "UTC" %}selected{% endif %}>UTC</option>
+                    <option value="EST" {% if user.timezone == "EST" %}selected{% endif %}>EST</option>
+                    <option value="PST" {% if user.timezone == "PST" %}selected{% endif %}>PST</option>
+                </select>
+            </div>
+
+            <div class="settings-field">
+                <label>Receive Notifications</label>
+                <input type="checkbox" name="notifications" {% if user.notifications %}checked{% endif %} disabled class="editable">
+            </div>
         </div>
 
         <div class="settings-buttons">
@@ -54,15 +78,10 @@
 </div>
 
 <script>
-    
     document.getElementById('edit-btn').addEventListener('click', function () {
-        // Enable only editable fields
         document.querySelectorAll('.editable').forEach(el => el.removeAttribute('disabled'));
-
-        // Hide Edit button, Show Save button
         document.getElementById('edit-btn').classList.add('hidden');
         document.getElementById('save-btn').classList.remove('hidden');
-
     });
 </script>
 {% endblock %}
