@@ -1,98 +1,113 @@
 {% extends "base.html" %}
-{%load static%}
+{% load static %}
 {% block title %}Home Page{% endblock %}
-{%block head%}
+{% block head %}
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
-{%endblock%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
 {% block content %}
 <div class="home-container">
+
+    <!-- Summary Cards -->
     <section class="recent-activity">
-        <h2>Recent Activity</h2>
+        <h2>Dashboard Overview</h2>
         <div class="card-container">
             <div class="card">
-                <div class="card-content">
-                    <h3>999</h3>
-                    <p>NEW ITEMS</p>
-                </div>
+                <h3>999</h3>
+                <p>New Items</p>
             </div>
             <div class="card">
-                <div class="card-content">
-                    <h3>123</h3>
-                    <p>NEW ORDERS</p>
-                </div>
+                <h3>123</h3>
+                <p>New Orders</p>
             </div>
             <div class="card">
-                <div class="card-content">
-                    <h3>12</h3>
-                    <p>REFUNDS</p>
-                </div>
+                <h3>12</h3>
+                <p>Refunds</p>
             </div>
             <div class="card">
-                <div class="card-content">
-                    <h3>1</h3>
-                    <p>MESSAGE</p>
-                </div>
+                <h3>1</h3>
+                <p>Messages</p>
             </div>
             <div class="card">
-                <div class="card-content">
-                    <h3>4</h3>
-                    <p>GROUPS</p>
-                </div>
-            </div>
-            <div class="arrow">
-                <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="m9 5 7 7-7 7" />
-                    </svg>
-                </span>
-            </div>
-        </div>
-        </section>
-
-    <section class="sub-details">
-        <div class="stock-numbers-card">
-            <h3>Stock Numbers</h3>
-            <div class="stock-numbers">
-                <div class="stock-item">
-                    <p>Low stock items</p>
-                    <p>12</p>
-                </div>
-                <div class="stock-item">
-                    <p>Items Categories</p>
-                    <p>6</p>
-                </div>
-                <div class="stock-item">
-                    <p>Refunded items</p>
-                    <p>1</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="store-list-card">
-            <div class="list-card-header">
-                <span>Stores list</span>
-                <span class="view-all">VIEW ALL</span>
-            </div>
-            <div class="store-list">
-                <div class="store-item">Manchester, UK</div>
-                <div class="store-item">23 employees</div>
-                <div class="store-item">308 items</div>
-                <div class="store-item">2 orders</div>
-                <div class="store-item">Yorkshire, UK</div>
-                <div class="store-item">11 employees</div>
-                <div class="store-item">291 items</div>
-                <div class="store-item">15 orders</div>
-                <div class="store-item">Hull, UK</div>
-                <div class="store-item">5 employees</div>
-                <div class="store-item">41 items</div>
-                <div class="store-item">11 orders</div>
-                <div class="store-item">Leicester, UK</div>
-                <div class="store-item">16 employees</div>
-                <div class="store-item">261 items</div>
-                <div class="store-item">8 orders</div>
+                <h3>4</h3>
+                <p>Groups</p>
             </div>
         </div>
     </section>
+
+    <!-- Charts Section -->
+    <section class="charts-section" style="display: flex; gap: 20px;">
+        <div class="chart-card" style="flex: 1;">
+            <h3>Revenue Trend (Last 7 Days)</h3>
+            <canvas id="revenueChart" width="400" height="300"></canvas>
+        </div>
+        <div class="chart-card" style="flex: 1;">
+            <h3>Expenses Trend (Last 7 Days)</h3>
+            <canvas id="expensesChart" width="400" height="300"></canvas>
+        </div>
+    </section>
+
+
+
+
 </div>
+
+<!-- JavaScript for Charts -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const revenueChart = new Chart(document.getElementById('revenueChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Revenue ($)',
+                    data: [1500, 1700, 2000, 1800, 2200, 1900, 2500],
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#28a745',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const expensesChart = new Chart(document.getElementById('expensesChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Expenses ($)',
+                    data: [800, 900, 1000, 950, 1100, 1000, 1300],
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#dc3545',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
 {% endblock %}
