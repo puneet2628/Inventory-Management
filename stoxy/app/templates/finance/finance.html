@@ -1,170 +1,340 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Inventory Management Dashboard{% endblock %}
+{% block title %}Financial Analytics{% endblock %}
 
 {% block head %}
-   <style>
-    body {
-    background-color: #f4f6f9;
-    font-family: 'Inter', sans-serif;
-    color: #333;
-}
-
-.dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.dashboard-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.dashboard-header h1 {
-    font-size: 2.5em;
-    color: #1e1e2d;
-}
-
-.chart-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.chart-card {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: transform 0.3s ease;
-}
-
-.chart-card:hover {
-    transform: translateY(-5px);
-}
-
-.chart-card h2 {
-    font-size: 1.2em;
-    color: #5a5a89;
-    margin-bottom: 10px;
-}
-
-.dashboard-footer {
-    text-align: center;
-    margin-top: 30px;
-    color: #888;
-    font-size: 0.9em;
-}
-
-   </style>
-
+<link rel="stylesheet" href="{% static 'css/finance.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="dashboard-container">
     <header class="dashboard-header">
-        <h1>Inventory Management Dashboard</h1>
+        <h1 class="dashboard-title">Financial Analytics Dashboard</h1>
+        <p class="dashboard-subtitle">Comprehensive financial and inventory insights</p>
     </header>
 
-    <main class="dashboard-content">
-        <section class="chart-section">
-            <div class="chart-card">
-                <h2>Sales by Category</h2>
-                <div id="categorySalesChart" class="chart"></div>
-            </div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Revenue</h3>
+            <div class="stat-value">$124,589</div>
+            <p>+12.5% from last month</p>
+        </div>
+        <!-- Add 3 more stat cards -->
+    </div>
 
-            <div class="chart-card">
-                <h2>Stock Value by Store</h2>
-                <div id="storeStockValueChart" class="chart"></div>
+    <div class="chart-grid">
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Revenue Distribution</h2>
             </div>
+            <div id="revenueChart" class="chart-container"></div>
+        </div>
 
-            <div class="chart-card">
-                <h2>Top Selling Products by Value</h2>
-                <div id="topProductsChart" class="chart"></div>
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Inventory Value Trend</h2>
             </div>
+            <div id="inventoryTrendChart" class="chart-container"></div>
+        </div>
 
-            <!-- New Charts -->
-            <div class="chart-card">
-                <h2>Monthly Sales Trend</h2>
-                <div id="monthlySalesChart" class="chart"></div>
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Top Selling Products</h2>
             </div>
+            <div id="topProductsChart" class="chart-container"></div>
+        </div>
 
-            <div class="chart-card">
-                <h2>Product Category Distribution</h2>
-                <div id="categoryDistributionChart" class="chart"></div>
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Store Performance</h2>
             </div>
+            <div id="storePerformanceChart" class="chart-container"></div>
+        </div>
 
-            <div class="chart-card">
-                <h2>Sales Growth Rate</h2>
-                <div id="salesGrowthChart" class="chart"></div>
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Category Growth</h2>
             </div>
-        </section>
-    </main>
+            <div id="categoryGrowthChart" class="chart-container"></div>
+        </div>
 
-    <footer class="dashboard-footer">
-        <p>© 2025 Inventory Dashboard. All rights reserved.</p>
-    </footer>
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Stock Turnover Rate</h2>
+            </div>
+            <div id="turnoverChart" class="chart-container"></div>
+            
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Profit Margins</h2>
+            </div>
+            <div id="profitMarginChart" class="chart-container"></div>
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Inventory Aging</h2>
+            </div>
+            <div id="inventoryAgingChart" class="chart-container"></div>
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Order Analytics</h2>
+            </div>
+            <div id="orderAnalyticsChart" class="chart-container"></div>
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2>Seasonal Trends</h2>
+            </div>
+            <div id="seasonalTrendsChart" class="chart-container"></div>
+        </div>
+    </div>
 </div>
 
-<!-- JSON Data -->
-{{ category_sales|json_script:"category-sales-data" }}
-{{ store_stock_value|json_script:"store-stock-data" }}
-{{ top_products|json_script:"top-products-data" }}
-{{ monthly_sales|json_script:"monthly-sales-data" }}
-{{ category_distribution|json_script:"category-distribution-data" }}
-{{ sales_growth|json_script:"sales-growth-data" }}
-
 <script>
-    function parseJSONData(id) {
-        const element = document.getElementById(id);
-        return element ? JSON.parse(element.textContent) : [];
+// Base Chart Configuration
+const chartTheme = {
+    chart: {
+        fontFamily: 'Inter, sans-serif',
+        toolbar: { show: false },
+        animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800
+        }
+    },
+    colors: ['#6366f1', '#8b5cf6', '#d946ef', '#f43f5e', '#f97316'],
+    grid: {
+        borderColor: '#f1f5f9',
+        strokeDashArray: 4
+    },
+    tooltip: {
+        theme: 'dark',
+        style: {
+            fontSize: '12px'
+        }
     }
+};
 
-    const monthlySales = parseJSONData("monthly-sales-data");
-    const categoryDistribution = parseJSONData("category-distribution-data");
-    const salesGrowth = parseJSONData("sales-growth-data");
+// Revenue Distribution - Donut Chart
+new ApexCharts(document.querySelector("#revenueChart"), {
+    ...chartTheme,
+    chart: { ...chartTheme.chart, type: 'donut' },
+    series: [44, 55, 41, 17, 15],
+    labels: ['Online', 'Retail', 'Wholesale', 'B2B', 'Others'],
+    plotOptions: { pie: { donut: { size: '75%' } } }
+}).render();
 
-    // Monthly Sales Trend - Line Chart
-    var monthlySalesOptions = {
-        chart: { type: 'line', height: 300 },
-        series: [{
-            name: 'Total Sales',
-            data: monthlySales.map(item => item.total_sales)
-        }],
-        xaxis: {
-            categories: monthlySales.map(item => new Date(item.month).toLocaleString('default', { month: 'short', year: 'numeric' })),
-        },
-        colors: ['#28a745'],
-    };
-    new ApexCharts(document.querySelector("#monthlySalesChart"), monthlySalesOptions).render();
+// Inventory Trend - Area Chart
+new ApexCharts(document.querySelector("#inventoryTrendChart"), {
+    ...chartTheme,
+    chart: { ...chartTheme.chart, type: 'area' },
+    series: [{
+        name: 'Inventory Value',
+        data: [31000, 40000, 28000, 51000, 42000, 109000, 100000]
+    }],
+    fill: {
+        type: 'gradient',
+        gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.2
+        }
+    }
+}).render();
 
-    // Product Category Distribution - Radar Chart
-    var categoryDistributionOptions = {
-        chart: { type: 'radar', height: 300 },
-        series: [{
-            name: 'Products',
-            data: categoryDistribution.map(item => item.count)
-        }],
-        labels: categoryDistribution.map(item => item.category__name),
-        colors: ['#ffc107'],
-    };
-    new ApexCharts(document.querySelector("#categoryDistributionChart"), categoryDistributionOptions).render();
+// Top Products - Bar Chart
+new ApexCharts(document.querySelector("#topProductsChart"), {
+    ...chartTheme,
+    chart: { ...chartTheme.chart, type: 'bar' },
+    series: [{
+        name: 'Sales',
+        data: [400, 430, 448, 470, 540, 580, 690]
+    }],
+    plotOptions: {
+        bar: {
+            borderRadius: 8,
+            columnWidth: '60%'
+        }
+    }
+}).render();
 
-    // Sales Growth Rate - Bar Chart
-    var salesGrowthOptions = {
-        chart: { type: 'bar', height: 300 },
-        series: [{
-            name: 'Growth Rate (%)',
-            data: salesGrowth.map(item => item.growth_rate)
-        }],
-        xaxis: {
-            categories: salesGrowth.map(item => item.month),
-        },
-        colors: ['#dc3545'],
-    };
-    new ApexCharts(document.querySelector("#salesGrowthChart"), salesGrowthOptions).render();
+// Store Performance - Radar Chart
+new ApexCharts(document.querySelector("#storePerformanceChart"), {
+    ...chartTheme,
+    chart: { ...chartTheme.chart, type: 'radar' },
+    series: [{
+        name: 'Performance Score',
+        data: [80, 50, 30, 40, 100, 45]
+    }],
+    xaxis: {
+        categories: ['Sales', 'Inventory', 'Customer', 'Growth', 'Efficiency', 'Profit']
+    }
+}).render();
+
+// Category Growth - Line Chart
+new ApexCharts(document.querySelector("#categoryGrowthChart"), {
+    ...chartTheme,
+    chart: { ...chartTheme.chart, type: 'line' },
+    series: [{
+        name: 'Electronics',
+        data: [30, 40, 35, 50, 49, 60, 70]
+    }, {
+        name: 'Fashion',
+        data: [20, 35, 40, 45, 50, 55, 65]
+    }]
+}).render();
+
+// Stock Turnover Rate - Mixed Chart
+new ApexCharts(document.querySelector("#turnoverChart"), {
+    ...chartTheme,
+    chart: {
+        ...chartTheme.chart,
+        type: 'line',
+        stacked: false
+    },
+    series: [{
+        name: 'Turnover Rate',
+        type: 'column',
+        data: [23, 11, 22, 27, 13, 22, 37]
+    }, {
+        name: 'Industry Average',
+        type: 'line',
+        data: [20, 20, 20, 20, 20, 20, 20]
+    }],
+    stroke: {
+        width: [0, 2]
+    },
+    yaxis: [{
+        title: { text: 'Turnover Rate' },
+        min: 0
+    }],
+    xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+    }
+}).render();
+
+// Profit Margins - Area Chart
+new ApexCharts(document.querySelector("#profitMarginChart"), {
+    ...chartTheme,
+    chart: {
+        ...chartTheme.chart,
+        type: 'area'
+    },
+    series: [{
+        name: 'Gross Margin',
+        data: [45, 52, 38, 45, 19, 23, 40]
+    }, {
+        name: 'Net Margin',
+        data: [35, 41, 62, 42, 13, 18, 29]
+    }],
+    fill: {
+        type: 'gradient',
+        gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 0.45,
+            opacityTo: 0.05
+        }
+    }
+}).render();
+
+// Inventory Aging - Heat Map
+new ApexCharts(document.querySelector("#inventoryAgingChart"), {
+    ...chartTheme,
+    chart: {
+        ...chartTheme.chart,
+        type: 'heatmap',
+    },
+    series: [{
+        name: '0-30 days',
+        data: [{ x: 'Electronics', y: 54 }, { x: 'Clothing', y: 42 }, { x: 'Food', y: 88 }]
+    }, {
+        name: '31-60 days',
+        data: [{ x: 'Electronics', y: 34 }, { x: 'Clothing', y: 22 }, { x: 'Food', y: 12 }]
+    }, {
+        name: '61-90 days',
+        data: [{ x: 'Electronics', y: 12 }, { x: 'Clothing', y: 18 }, { x: 'Food', y: 5 }]
+    }],
+    plotOptions: {
+        heatmap: {
+            colorScale: {
+                ranges: [{
+                    from: 0,
+                    to: 20,
+                    color: '#6366f1'
+                }, {
+                    from: 21,
+                    to: 50,
+                    color: '#8b5cf6'
+                }, {
+                    from: 51,
+                    to: 100,
+                    color: '#d946ef'
+                }]
+            }
+        }
+    }
+}).render();
+
+// Order Analytics - Mixed Chart
+new ApexCharts(document.querySelector("#orderAnalyticsChart"), {
+    ...chartTheme,
+    chart: {
+        ...chartTheme.chart,
+        type: 'line'
+    },
+    series: [{
+        name: 'Orders',
+        type: 'column',
+        data: [440, 505, 414, 671, 227, 413, 201]
+    }, {
+        name: 'Returns',
+        type: 'line',
+        data: [23, 42, 35, 27, 43, 22, 17]
+    }],
+    stroke: {
+        width: [0, 2]
+    },
+    xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+    }
+}).render();
+
+// Seasonal Trends - Bubble Chart
+new ApexCharts(document.querySelector("#seasonalTrendsChart"), {
+    ...chartTheme,
+    chart: {
+        ...chartTheme.chart,
+        type: 'bubble'
+    },
+    series: [{
+        name: 'Q1',
+        data: [[12, 23, 10], [22, 27, 13], [18, 13, 5]]
+    }, {
+        name: 'Q2',
+        data: [[11, 17, 15], [24, 31, 18], [30, 42, 19]]
+    }, {
+        name: 'Q3',
+        data: [[19, 32, 25], [14, 28, 16], [21, 35, 23]]
+    }, {
+        name: 'Q4',
+        data: [[36, 42, 30], [28, 38, 25], [33, 44, 28]]
+    }],
+    xaxis: {
+        tickAmount: 12,
+        type: 'category'
+    },
+    yaxis: {
+        max: 50
+    }
+}).render();
+
 </script>
-
 {% endblock %}

@@ -232,6 +232,7 @@ def update_settings(request):
 
 
 def finance_dashboard(request):
+   
     # 1. Category-wise Total Sales
     category_sales = (
         Product.objects.values("category__name")
