@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} Products {% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
@@ -11,23 +11,20 @@
     <h2>Products</h2>
     <div class="maindiv">
         <div class="search">
-            <input type="search" name="search" id="search" placeholder="Search">
+            <input type="search" name="search" id="search" placeholder="Search products...">
         </div>
         <div class="add-product">
             <a href="{% url 'add_product' %}" class="csbtn">
-                <span>
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M5 12h14m-7 7V5" />
-                    </svg>
-                </span> Add Product
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7 7V5" />
+                </svg>
+                Add Product
             </a>
         </div>
     </div>
 </div>
 
-<table class="tick">
+<table class="products-table">
     <thead>
         <tr>
             <th>Product</th>
@@ -43,22 +40,21 @@
         <tr>
             <td>
                 {% if product.images.all %}
-                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                <img class="product-image" src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
                 {% else %}
-                No Image
+                <div class="no-image">No Image</div>
                 {% endif %}
             </td>
             <td>{{ product.name }}</td>
             <td>
                 {% if product.stock > 10 %}
-                <span class="active">Active Stock</span>
+                <span class="status-badge active">Active Stock</span>
                 {% elif product.stock > 0 %}
-                <span class="low-stock">Low Stock</span>
+                <span class="status-badge low-stock">Low Stock</span>
                 {% else %}
-                <span class="out-of-stock">Out of Stock</span>
+                <span class="status-badge out-of-stock">Out of Stock</span>
                 {% endif %}
             </td>
-
             <td>{{ product.stock }}</td>
             <td>{{ product.category.name }}</td>
             <td>

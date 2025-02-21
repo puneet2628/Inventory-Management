@@ -1,0 +1,35 @@
+<div class="store-details">
+    <h2>{{ store.name }}</h2>
+    <div class="store-info">
+        <div class="info-group">
+            <strong>Category:</strong>
+            <span>{{ store.category }}</span>
+        </div>
+        <div class="info-group">
+            <strong>Phone:</strong>
+            <span>{{ store.phone_number }}</span>
+        </div>
+        <div class="info-group">
+            <strong>Email:</strong>
+            <span>{{ store.email }}</span>
+        </div>
+        <div class="info-group">
+            <strong>Address:</strong>
+            <span>{{ store.address }}</span>
+        </div>
+        {% if store.description %}
+        <div class="info-group">
+            <strong>Description:</strong>
+            <p>{{ store.description }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if store.storeimage_set.all %}
+    <div class="image-gallery">
+        {% for image in store.storeimage_set.all %}
+        <img src="{{ image.image.url }}" alt="Store Image" loading="lazy">
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>

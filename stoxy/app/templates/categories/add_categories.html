@@ -1,32 +1,42 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Add Category{% endblock %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/add_categories.css' %}">
-{% endblock %}
-{% block content %}
 
-<div class="container">
-    <h2 class="title">Add New Category</h2>
-    <form class="form" method="POST" action="{% url 'add_category' %}" enctype="multipart/form-data">
+{% block title %}Add Category{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="form-title">Add New Category</h2>
+    <form class="form-grid" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-    
+        
         <div class="form-group full-width">
-            <label>Category Name*</label>
-            <input type="text" name="name" placeholder="Enter category name" required>
+            <label class="form-label">Category Name*</label>
+            <input class="form-control" type="text" name="name" required>
         </div>
+
         <div class="form-group full-width">
-            <label>Category Icon*</label>
-            <input type="file" name="icon" accept="image/*" required>
+            <div class="file-input-wrapper">
+                <label class="file-input-label">
+                    <span>Drop category icon here or click to upload</span>
+                    <input class="file-input" type="file" name="icon" accept="image/*" required>
+                </label>
+            </div>
         </div>
+
         <div class="form-group full-width">
-            <label>Category Description (Optional)</label>
-            <textarea name="description" placeholder="Enter category description"></textarea>
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="4"></textarea>
         </div>
+
         <div class="form-group full-width">
-            <button type="submit" class="submit-btn">Add Category</button>
+            <button type="submit" class="form-submit">
+                <span>Create Category</span>
+            </button>
         </div>
     </form>
 </div>
-
 {% endblock %}

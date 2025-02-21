@@ -7,8 +7,10 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
-from django.db.models import Sum, F
-
+from django.db.models import Sum, F, Count
+from django.shortcuts import render
+from datetime import datetime, timedelta
+from django.db.models.functions import TruncMonth
 
 
 
@@ -199,6 +201,10 @@ def add_store(request):
 
     return render(request, "stores/add_store.html")
 
+def store_details(request, store_id):
+    store = get_object_or_404(Store, id=store_id)
+    return render(request, 'stores/partials/store_details_partial.html', {'store': store})
+
 
 #---------------------------------------settings-------------------------------------------------------
 
@@ -222,15 +228,18 @@ def update_settings(request):
 
     return redirect("settings") 
 
+
+
+
 def finance_dashboard(request):
-    # 1. Fetch Category-wise Total Sales (Sum of all product prices * stock)
+    # 1. Category-wise Total Sales
     category_sales = (
         Product.objects.values("category__name")
         .annotate(total_sales=Sum(F("price") * F("stock")))
         .order_by("-total_sales")
     )
 
-    # 2. Fetch Store-wise Stock Value (Sum of stock * price for each store)
+    # 2. Store-wise Stock Value
     store_stock_value = (
         Store.objects.annotate(
             stock_value=Sum(F("products__stock") * F("products__price"))
@@ -239,12 +248,42 @@ def finance_dashboard(request):
         .order_by("-stock_value")
     )
 
-    # 3. Fetch Top Products by Total Stock Value (Price * Stock)
+    # 3. Top Products by Total Stock Value
     top_products = (
         Product.objects.annotate(total_value=F("price") * F("stock"))
         .values("name", "total_value")
-        .order_by("-total_value")[:5]  # Get top 5 products
+        .order_by("-total_value")[:5]
     )
+
+    # 4. Dummy Data for Monthly Sales Trend (Last 12 Months)
+    current_month = datetime.today().replace(day=1)
+    monthly_sales = []
+    for i in range(12):
+        month = (current_month - timedelta(days=30 * i)).strftime("%b %Y")
+        total_sales = 100000 + (i * 5000)  # Dummy sales data with an increasing trend
+        monthly_sales.append({"month": month, "total_sales": total_sales})
+    monthly_sales.reverse()  # To display in chronological order
+
+    # 5. Product Category Distribution
+    category_distribution = (
+        Product.objects.values("category__name")
+        .annotate(count=Count("id"))
+        .order_by("-count")
+    )
+
+    # 6. Dummy Data for Sales Growth Rate (Month-over-Month)
+    sales_growth = []
+    prev_sales = 0
+    for month_data in monthly_sales:
+        total_sales = month_data["total_sales"]
+        growth_rate = (
+            ((total_sales - prev_sales) / prev_sales * 100) if prev_sales > 0 else 0
+        )
+        sales_growth.append({
+            "month": month_data["month"],
+            "growth_rate": round(growth_rate, 2)
+        })
+        prev_sales = total_sales
 
     return render(
         request,
@@ -253,5 +292,8 @@ def finance_dashboard(request):
             "category_sales": list(category_sales),
             "store_stock_value": list(store_stock_value),
             "top_products": list(top_products),
-        },
+            "monthly_sales": monthly_sales,
+            "category_distribution": list(category_distribution),
+            "sales_growth": sales_growth,
+        }
     )

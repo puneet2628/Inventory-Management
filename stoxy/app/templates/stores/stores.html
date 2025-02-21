@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Stores{% endblock %}
 
 {% block head %}
@@ -7,86 +8,110 @@
 {% endblock %}
 
 {% block content %}
-<div class="body">
-    <div class="upr-bar">
-        <h2>Stores</h2>
-        <div class="maindiv">
-            <div class="search">
-                <input type="search" name="search" id="search" placeholder="Search">
+<div class="upr-bar">
+    <h2>Stores</h2>
+    <div class="maindiv">
+        <div class="search">
+            <input type="search" name="search" id="search" placeholder="Search stores...">
+        </div>
+        <div class="filter-dropdown">
+            <select id="filter" class="dropdown">
+                <option value="">All Categories</option>
+                <option value="Grocery">Grocery</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Furniture">Furniture</option>
+            </select>
+        </div>
+        <a href="{% url 'add_store' %}" class="csbtn">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7 7V5"/>
+            </svg>
+            Add Store
+        </a>
+    </div>
+</div>
+
+<div class="container-store">
+    {% for store in stores %}
+    <div class="store-card" data-id="{{ store.id }}" onclick="showDetails('{{ store.id }}')">
+        {% if store.storeimage_set.first %}
+            <img width="150px" height="150px" src="{{ store.storeimage_set.first.image.url }}" alt="{{ store.name }}">
+        {% else %}
+            <img src="{% static 'images/default-store.jpg' %}" alt="Default Store Image">
+        {% endif %}
+        <h3>{{ store.name }}</h3>
+        <p>{{ store.category }}</p>
+    </div>
+    {% empty %}
+    <p class="no-results">No stores available.</p>
+    {% endfor %}
+</div>
+
+<div id="store-details-modal" class="modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="hideDetails()" aria-label="Close modal">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+        <div id="store-details-content">
+            <div class="loading-spinner">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+                </svg>
+                <p>Loading store details...</p>
             </div>
-            <div class="filter-dropdown">
-                <select id="filter" class="dropdown">
-                    <option selected disabled>Filter by</option>
-                    <option value="Grocery">Grocery</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="Furniture">Furniture</option>
-                </select>
-            </div>
-            <div class="add-product">
-                <a href="{% url 'add_store' %}" class="csbtn">
-                    <span>
-                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
-                            viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="1.5" d="M5 12h14m-7 7V5" />
+        </div>
+    </div>
+</div>
+
+<script>
+    function showDetails(storeId) {
+        const modal = document.getElementById("store-details-modal");
+        const content = document.getElementById("store-details-content");
+        
+        // Show modal with animation
+        modal.style.display = "flex";
+        setTimeout(() => modal.classList.add("show"), 10);
+        
+        // Fetch store details
+        fetch(`/store-details/${storeId}/`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(data => {
+                content.innerHTML = data;
+            })
+            .catch(error => {
+                content.innerHTML = `
+                    <div class="error-message">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 8v5M12 16v.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
-                    </span> Add Store
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Store Cards -->
-    <div class="container-store">
-        {% for store in stores %}
-        <div class="store-card-wrapper">
-            <div class="store-cards" data-id="{{ store.id }}" onclick="showDetails('{{ store.id }}')">
-                {% with store.storeimage_set.first as store_image %}
-                {% if store_image %}
-                <img src="{{ store_image.image.url }}" alt="{{ store.name }}">
-                {% else %}
-                <img src="{% static 'images/default-store.jpg' %}" alt="Default Store Image">
-                {% endif %}
-                {% endwith %}
-                <p><strong>{{ store.name }}</strong></p>
-            </div>
-
-            <!-- Store Details (Now inside the same wrapper) -->
-            <div class="store-details-card" id="details-{{ store.id }}">
-                <p><strong>Category:</strong> {{ store.category }}</p>
-                <p><strong>Id:</strong>{{ store.id }}</p>
-                <p><strong>Phone:</strong> {{ store.phone_number }}</p>
-                <p><strong>Email:</strong> {{ store.email }}</p>
-                <p><strong>Address:</strong> {{ store.address }}</p>
-                <p><strong>Location:</strong> {{ store.location }}</p>
-                <p><strong>Description:</strong> {{ store.description }}</p>
-                <button onclick="hideDetails()">✖ Close</button>
-            </div>
-        </div>
-        {% empty %}
-        <p>No stores available.</p>
-        {% endfor %}
-    </div>
-
-    <!-- JavaScript for Show/Hide Store Details -->
-    <script>
-        function showDetails(storeId) {
-            // Hide all store details first
-            document.querySelectorAll(".store-details-card").forEach(card => {
-                card.style.display = "none";
+                        <p>Failed to load store details. Please try again.</p>
+                    </div>
+                `;
+                console.error('Error:', error);
             });
+    }
 
-            // Show only the clicked store details
-            document.getElementById("details-" + storeId).style.display = "block";
-        }
+    function hideDetails() {
+        const modal = document.getElementById("store-details-modal");
+        modal.classList.remove("show");
+        setTimeout(() => modal.style.display = "none", 300);
+    }
 
-        function hideDetails() {
-            // Hide all details when closing
-            document.querySelectorAll(".store-details-card").forEach(card => {
-                card.style.display = "none";
-            });
-        }
-    </script>
+    // Close modal on outside click
+    document.getElementById("store-details-modal").addEventListener("click", (event) => {
+        if (event.target === event.currentTarget) hideDetails();
+    });
 
-    {% endblock %}
+    // Close modal on escape key
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") hideDetails();
+    });
+</script>
+{% endblock %}

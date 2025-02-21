@@ -1,104 +1,173 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('variables.css');
+
+:root {
+    --primary-color: #6a258a;
+    --secondary-color: #b78fe6;
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --border-radius: 10px;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
 * {
     margin: 0;
     padding: 0;
-    font-family: "Raleway", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-size: normal;
+    box-sizing: border-box;
+    font-family: "Raleway", sans-serif;
 }
 
-body {
-    background-color: rgb(235, 234, 234);
+/* Base Layout */
+.base-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 100vh;
 }
 
+/* Common Components */
+.btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
 
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Form Elements */
+.form-control {
+    padding: var(--spacing-sm);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    outline: none;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Card Styles */
+.card {
+    background: var(--background-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow);
+}
+
+/* Grid Layouts */
+.grid {
+    display: grid;
+    gap: var(--spacing-lg);
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Sidebar Navigation */
 .sidenav {
-
-
-    height: 100%;
-    width: 200px;
+    background-color: var(--primary-color);
+    height: 100vh;
     position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #6a258a;
-    justify-content: space-between;
+    width: 200px;
     display: flex;
     flex-direction: column;
-    
-
+    justify-content: space-between;
+    padding: 20px 0;
 }
 
 .sidenav a {
-    padding: 8px 8px 8px 16px;
-    text-decoration: none;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 700;
+    padding: 12px 16px;
     color: white;
+    text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
+    transition: background-color 0.3s;
 }
 
-
-
-.main-sidenav {
-    grid-column: 2;
+.sidenav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Main Content Area */
 .main-content {
-    grid-column: span 10;
-    /* margin-top: 25px; */
-    margin-right: 30px;
-
-
+    padding: 20px;
+    margin-left: 20px;
 }
 
-.base-layout {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 20px;
-}
-
+/* Top Navigation */
 .topnav {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 5px 30px;
-    margin-top: 5px;
-
+    align-items: center;
+    padding: 15px 30px;
+    background-color: white;
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
 }
 
+/* Search Input */
 #search {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--primary-color);
     width: 300px;
-    height: 40px;
-    border-radius: 15px;
-    border: 1px solid #6a258a;
-    padding-left: 30px;
-
+    outline: none;
 }
 
-
-
-.logo a {
-    text-decoration: none;
-    list-style: none;
-    color: white;
-    padding-top: 20px;
-
+#search:focus {
+    box-shadow: 0 0 0 2px var(--secondary-color);
 }
 
+/* User Navigation */
 .end-sec ul {
-    text-decoration: none;
-    gap: 20px;
     display: flex;
+    gap: 20px;
     list-style: none;
-
 }
 
-.end-sec ul a {
-    color: #6a258a;
+.end-sec a {
+    color: var(--primary-color);
+    transition: color 0.3s;
+}
+
+.end-sec a:hover {
+    color: var(--secondary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .base-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidenav {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    #search {
+        width: 200px;
+    }
+
+    .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+    }
 }
