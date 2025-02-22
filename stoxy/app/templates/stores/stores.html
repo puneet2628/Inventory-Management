@@ -4,8 +4,7 @@
 {% block title %}Stores{% endblock %}
 
 {% block head %}
-<!-- <link rel="stylesheet" href="{% static 'css/stores.css' %}"> -->
-<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/stores.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -25,8 +24,10 @@
             </select>
         </div>
         <a href="{% url 'add_store' %}" class="csbtn">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7 7V5"/>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M5 12h14m-7 7V5" />
             </svg>
             Add Store
         </a>
@@ -37,9 +38,9 @@
     {% for store in stores %}
     <div class="store-card" data-id="{{ store.id }}" onclick="showDetails('{{ store.id }}')">
         {% if store.storeimage_set.first %}
-            <img width="150px" height="150px" src="{{ store.storeimage_set.first.image.url }}" alt="{{ store.name }}">
+        <img width="150px" height="150px" src="{{ store.storeimage_set.first.image.url }}" alt="{{ store.name }}">
         {% else %}
-            <img src="{% static 'images/default-store.jpg' %}" alt="Default Store Image">
+        <img src="{% static 'images/default-store.jpg' %}" alt="Default Store Image">
         {% endif %}
         <h3>{{ store.name }}</h3>
         <p>{{ store.category }}</p>
@@ -53,13 +54,13 @@
     <div class="modal-content">
         <button class="close-btn" onclick="hideDetails()" aria-label="Close modal">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
         </button>
         <div id="store-details-content">
             <div class="loading-spinner">
                 <svg width="24" height="24" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" />
                 </svg>
                 <p>Loading store details...</p>
             </div>
@@ -71,12 +72,10 @@
     function showDetails(storeId) {
         const modal = document.getElementById("store-details-modal");
         const content = document.getElementById("store-details-content");
-        
-        // Show modal with animation
+
         modal.style.display = "flex";
         setTimeout(() => modal.classList.add("show"), 10);
-        
-        // Fetch store details
+
         fetch(`/store-details/${storeId}/`)
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -105,12 +104,10 @@
         setTimeout(() => modal.style.display = "none", 300);
     }
 
-    // Close modal on outside click
     document.getElementById("store-details-modal").addEventListener("click", (event) => {
         if (event.target === event.currentTarget) hideDetails();
     });
 
-    // Close modal on escape key
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") hideDetails();
     });

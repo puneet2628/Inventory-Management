@@ -1,6 +1,6 @@
+@import url('variables.css');
+
 :root {
-  --primary-color: #620597;
-  --primary-light: #b78fe6;
   --surface-color: #ffffff;
   --danger-color: #FF4C4C;
   --warning-color: #FFA500;
@@ -21,20 +21,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-}
-
-.dropdown {
-  padding: 8px 15px;
-  border-radius: 0.75rem;
-  width: 135px;
-  font-size: 16px;
-  background-color: #b78fe6;
-  color: #311b5c;
-  cursor: pointer;
-}
-
-.dropdown option {
-  background-color: white;
 }
 
 .search input {

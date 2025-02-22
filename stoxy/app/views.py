@@ -1,4 +1,3 @@
-import django
 import django.http
 from django.shortcuts import *
 from django.contrib.auth import authenticate, login, logout
